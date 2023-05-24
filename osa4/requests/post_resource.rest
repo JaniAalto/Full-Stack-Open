@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs
+content-type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6IjY0NjE3YTdjOTNjOWI1YTRlOTk1NGE4NCIsImlhdCI6MTY4NDIzOTM5MH0.x0fo1G7J0OyMAEwCKZVC4Pd71NvSQxpVNhDn-tDPrik
+
+{
+    "title": "Test8",
+    "author": "Other",
+    "url": "https://another8.blog.com",
+    "likes": 8
+}
