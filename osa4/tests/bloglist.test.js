@@ -288,5 +288,3 @@ describe('requests to individual resources', () => {
 afterAll(async () => {
   await mongoose.connection.close()
 })
-
-//npm test -- tests/bloglist.test.js
