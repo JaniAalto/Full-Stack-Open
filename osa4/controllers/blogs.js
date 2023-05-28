@@ -7,6 +7,11 @@ blogRouter.get('/', async (request, response) => {
   response.json(blogs)
 })
 
+blogRouter.get('/:id', async (request, response) => {
+  const blog = await Blog.findById(request.params.id).populate('user', { username: 1, name: 1 })
+  response.json(blog)
+})
+
 blogRouter.post('/', async (request, response, next) => {
   //console.log("request.body", request.body)
 
@@ -45,7 +50,7 @@ blogRouter.delete('/:id', async (request, response, next) => {
 
   const userId = request.user._id.toString()
   const blog = await Blog.findById(request.params.id)
-  //console.log("blogRouter.delete: user, blog", userId, blog)
+  console.log("blogRouter.delete: user, blog", userId, blog)
 
   if (blog.user._id.toString() === userId) {
     await Blog.findByIdAndRemove(request.params.id)
@@ -56,26 +61,14 @@ blogRouter.delete('/:id', async (request, response, next) => {
 })
 
 blogRouter.put('/:id', async (request, response, next) => {
-  if (!request.user) {
-    return response.status(401).send("missing user credentials")
-  }
+  //console.log("request.body", request.body)
 
-  const likes = request.body.likes
   const id = request.params.id
-  const userId = request.user._id.toString()
-  const blog = await Blog.findById(request.params.id)
 
-  //console.log(`Backend trying to update ${id} with likes ${likes}`)
+  await Blog.findByIdAndUpdate(id, request.body)
+    .catch(error => next(error))
 
-  if (blog.user._id.toString() === userId) {
-    const blogs = await Blog.findByIdAndUpdate(id, { likes: likes })
-      .catch(error => next(error))
-
-    response.status(204).json(blogs)
-  }
-  else {
-    return response.status(401).json({ error: 'access denied' })
-  }
+  response.status(204).end()
 })
 
 
