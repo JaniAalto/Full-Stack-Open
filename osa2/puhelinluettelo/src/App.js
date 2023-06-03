@@ -119,18 +119,28 @@ const App = () => {
         dataTransfer
           .update(foundPerson.id, changedObject)
           .then(response => {
-            console.log("response", response)
-            setPersons(persons.map(person => person.id !== foundPerson.id ? person : response))
-            setNewName('')
-            setNewNumber('')
-            setIsError(false)
-            setMessageText(`Updated the number of ${foundPerson.name}`)
-            setTimeout(() => {
-              setMessageText(null)
-            }, 5000)
-          }).catch(e => {
+            if (response) {
+              console.log("response", response)
+              setPersons(persons.map(person => person.id !== foundPerson.id ? person : response))
+              setNewName('')
+              setNewNumber('')
+              setIsError(false)
+              setMessageText(`Updated the number of ${foundPerson.name}`)
+              setTimeout(() => {
+                setMessageText(null)
+              }, 5000)
+            }
+            else {
+              setIsError(true)
+              setMessageText(`${foundPerson.name} has already been deleted from the server`)
+              setTimeout(() => {
+                setMessageText(null)
+              }, 5000)
+            }
+          })
+          .catch(response => {
             setIsError(true)
-            setMessageText(`${foundPerson.name} has already been deleted from the server`)
+            setMessageText(`${response.response.data.error}`)
             setTimeout(() => {
               setMessageText(null)
             }, 5000)
@@ -153,6 +163,13 @@ const App = () => {
           setNewNumber('')
           setIsError(false)
           setMessageText(`Added ${returnedName.name}`)
+          setTimeout(() => {
+            setMessageText(null)
+          }, 5000)
+        })
+        .catch(response => {
+          setIsError(true)
+          setMessageText(`${response.response.data.error}`)
           setTimeout(() => {
             setMessageText(null)
           }, 5000)
