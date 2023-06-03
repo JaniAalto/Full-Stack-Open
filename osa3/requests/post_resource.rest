@@ -1,0 +1,15 @@
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+    "name": "Test name",
+    "number": "111111111"
+}
+###
+POST https://phonebook-sz2a.onrender.com/api/persons
+content-type: application/json
+
+{
+    "name": "Test name",
+    "number": "111111111"
+}
